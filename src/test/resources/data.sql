@@ -1,0 +1,6 @@
+CREATE TABLE orders
+(id INTEGER NOT NULL,
+ user_id INTEGER NOT NULL,
+ position_id INTEGER NOT NULL,
+ order_date TIMESTAMP,
+  PRIMARY KEY (id))
