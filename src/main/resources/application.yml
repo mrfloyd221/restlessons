@@ -1,5 +1,33 @@
-spring.datasource.url=jdbc:postgresql://192.168.99.100:32770/shopdb
-spring.datasource.username=admin
-spring.datasource.password=admin
-spring.datasource.driver-class-name=org.postgresql.Driver
-spring.main.banner-mode=off
+---
+spring:
+  profiles: develop
+  datasource:
+      url: jdbc:postgresql://192.168.99.100:32770/shopdb
+      username: admin
+      password: admin
+      driver-class-name: org.postgresql.Driver
+  jpa:
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.PostgreSQL94Dialect
+---
+spring:
+  profiles: test
+  datasource:
+    url: jdbc:h2:mem:mydb
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+
+---
+spring:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+      naming:
+        strategy: org.hibernate.cfg.ImprovedNamingStrategy

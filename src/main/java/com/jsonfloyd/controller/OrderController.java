@@ -1,10 +1,11 @@
 package com.jsonfloyd.controller;
 
+import com.jsonfloyd.Service.IOrderService;
 import com.jsonfloyd.dao.OrderDao;
-import com.jsonfloyd.dao.OrderDbRepository;
 import com.jsonfloyd.model.Order;
-import jdk.nashorn.internal.objects.annotations.Getter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,14 +17,9 @@ import java.util.List;
  */
 @RestController
 public class OrderController {
-    @ResponseStatus(value=HttpStatus.NOT_FOUND, reason="No such Order")  // 404
-    public class OrderNotFoundException extends RuntimeException {
 
-    }
-    private OrderDao orders;
-    public OrderController(OrderDao orders){
-        this.orders = orders;
-    }
+    @Autowired
+    private IOrderService orders;
     @GetMapping("/orders")
     public ResponseEntity<List<Order>> getAllOrders(){
         return new ResponseEntity<List<Order>>(orders.getAllOrders(), HttpStatus.OK);
@@ -33,21 +29,21 @@ public class OrderController {
         orders.addOrder(order);
         return new ResponseEntity<Order>(order, HttpStatus.OK);
     }
-    @PutMapping("/orders/{id}")
-    public ResponseEntity<Order> updateOrderById(@PathVariable int id, @RequestBody Order order){
-        orders.updateOrderById(id, order);
+    @PutMapping("/orders/")
+    public ResponseEntity<Order> updateOrderById(@RequestBody Order order){
+        orders.updateOrder(order);
         return new ResponseEntity<Order>(order, HttpStatus.OK);
     }
     @DeleteMapping("/orders/{id}")
     public ResponseEntity<Order> removeOrderById(@PathVariable int id){
-        orders.removeOrderById(id);
+        orders.deleteOrder(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    @GetMapping("/orders/{id}")
-    public ResponseEntity<Order> getOrderById(@PathVariable int id){
-        return new ResponseEntity<Order>(orders.getOrderById(id), HttpStatus.OK);
+    @GetMapping(value="/orders/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Order getOrderById(@PathVariable int id){
+        return orders.getOrderById(id);
     }
-    @GetMapping("/orders/{user_id}")
+    @GetMapping("/orders/userid/{user_id}")
     public ResponseEntity<List<Order>> getOrderByUserId(@PathVariable int user_id){
         return new ResponseEntity<List<Order>>(orders.getOrdersByUserId(user_id), HttpStatus.OK);
     }
