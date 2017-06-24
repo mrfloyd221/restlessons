@@ -45,18 +45,18 @@ public class  OrderHibernateRepository implements OrderDao{
     @SuppressWarnings("unchecked")
     @Override
     public List<Order> getOrdersByUserId(int userId) {
-        String hql = "FROM Order o WHERE o.user_id=:userId";
+        String hql = "FROM orders o WHERE o.user_id=:userId";
         return (List<Order>) entityManager.createQuery(hql).setParameter("userId", userId).getResultList();
     }
     @SuppressWarnings("unchecked")
     @Override
     public List<Order> getAllOrders() {
-        String hql = "FROM Order";
+        String hql = "FROM orders";
         return (List<Order>) entityManager.createQuery(hql).getResultList();
     }
     @Override
     public boolean isOrderExist(int userId, int positionId){
-        String hql = "FROM Order as o WHERE o.user_id = ? and o.position_id = ?";
+        String hql = "FROM orders as o WHERE o.user_id = ? and o.position_id = ?";
         int count = entityManager.createQuery(hql).setParameter(1, userId).setParameter(2, positionId).getResultList().size();
         return count > 0;
     }
