@@ -20,7 +20,7 @@ public class OrderDbRepository implements OrderDao {
     }
     @Override
     public void addOrder(Order order) {
-       jdbcTemplate.update("insert into orders(user_id,position_id,order_date) values (?, ?, ?)", order.getUserId(), order.getPositionId(), order.getOrderDate());
+       jdbcTemplate.update("insert into orders(user_id,position_id,order_date) values ( ?, ?, ?)", order.getUserId(), order.getPositionId(), order.getOrderDate());
     }
 
     @Override
@@ -41,7 +41,7 @@ public class OrderDbRepository implements OrderDao {
                 return mapOrder(rs);
             }
             return null;
-        });
+        }, id);
     }
 
     @Override
