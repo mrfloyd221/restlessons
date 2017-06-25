@@ -1,4 +1,4 @@
-package com.jsonfloyd.controller;
+package com.jsonfloyd.configuration;
 
         import lombok.extern.java.Log;
         import lombok.extern.log4j.Log4j;

@@ -30,7 +30,7 @@ public class OrderController {
         return new ResponseEntity<Order>(order, HttpStatus.OK);
     }
     @PutMapping("/orders/")
-    public ResponseEntity<Order> updateOrderById(@RequestBody Order order){
+    public ResponseEntity<Order> updateOrderById(@RequestBody Order order) throws Exception{
         orders.updateOrder(order);
         return new ResponseEntity<Order>(order, HttpStatus.OK);
     }

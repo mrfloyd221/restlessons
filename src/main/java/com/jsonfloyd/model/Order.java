@@ -18,13 +18,11 @@ import javax.persistence.*;
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="order_id")
     @Getter @Setter int id;
-    @Column(name="user_id")
     @Getter @Setter int userId;
-    @Column(name="position_id")
+
     @Getter @Setter int positionId;
-    @Column(name="order_date", insertable = false, updatable = false)
+    @Column( insertable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @Getter @Setter Date orderDate;
 }

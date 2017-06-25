@@ -90,7 +90,7 @@ public class RestlessonsApplicationTests {
 		order.setUserId(2);
 		order.setPositionId(3);
 		order.setOrderDate(new Timestamp(System.currentTimeMillis()));
-		this.mockMvc.perform(put("/orders/1")
+		this.mockMvc.perform(put("/orders/")
 				.content(asJsonString(order))
 				.contentType(MediaType.APPLICATION_JSON)
 				.accept(MediaType.ALL))

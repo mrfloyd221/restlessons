@@ -41,7 +41,7 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public void updateOrder(Order order) {
+    public void updateOrder(Order order) throws Exception {
         orders.updateOrder(order);
     }
 

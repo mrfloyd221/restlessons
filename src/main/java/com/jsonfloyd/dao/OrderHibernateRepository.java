@@ -18,7 +18,7 @@ public class  OrderHibernateRepository implements OrderDao{
 
 
    @PersistenceContext
-    EntityManager entityManager;
+    private EntityManager entityManager;
     @Override
     public void addOrder(Order order) {
         entityManager.persist(order);
@@ -30,11 +30,18 @@ public class  OrderHibernateRepository implements OrderDao{
     }
 
     @Override
-    public void updateOrder(Order order) {
-        Order target = getOrderById(order.getId());
+    public void updateOrder(Order order) throws Exception{
+        if(isOrderExist(order.getUserId(), order.getPositionId())){
+
+            throw new Exception("Order already exist");
+        }
+        else{
+            entityManager.merge(order);
+        }
+       /* Order target = getOrderById(order.getId());
         target.setUserId(order.getUserId());
         target.setPositionId(order.getPositionId());
-        entityManager.flush();
+        entityManager.flush();*/
     }
 
     @Override
@@ -45,18 +52,18 @@ public class  OrderHibernateRepository implements OrderDao{
     @SuppressWarnings("unchecked")
     @Override
     public List<Order> getOrdersByUserId(int userId) {
-        String hql = "FROM orders o WHERE o.user_id=:userId";
-        return (List<Order>) entityManager.createQuery(hql).setParameter("userId", userId).getResultList();
+        String hql = "FROM Order o WHERE o.userId=:userId";
+        return entityManager.createQuery(hql, Order.class).setParameter("userId", userId).getResultList();
     }
     @SuppressWarnings("unchecked")
     @Override
     public List<Order> getAllOrders() {
-        String hql = "FROM orders";
-        return (List<Order>) entityManager.createQuery(hql).getResultList();
+        String hql = "FROM Order";
+        return entityManager.createQuery(hql, Order.class).getResultList();
     }
     @Override
     public boolean isOrderExist(int userId, int positionId){
-        String hql = "FROM orders as o WHERE o.user_id = ? and o.position_id = ?";
+        String hql = "FROM Order as o WHERE o.userId = ? and o.positionId = ?";
         int count = entityManager.createQuery(hql).setParameter(1, userId).setParameter(2, positionId).getResultList().size();
         return count > 0;
     }
